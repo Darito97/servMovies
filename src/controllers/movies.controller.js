@@ -42,6 +42,7 @@ const getRandomMovie = async (req, res) => {
     let response = await fetch(
       `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}&page=${randomPage}`
     );
+    console.log(response);
     let data = await response.json();
     let randomIndex = Math.floor(Math.random() * data.results.length);
     res.status(200).json(data.results[randomIndex]);
