@@ -1,11 +1,20 @@
 import { Router } from "express";
 
+/* Controller */
+import {
+  getFavs,
+  createFav,
+  deleteFav,
+  updateFav,
+  getFav,
+} from "../controllers/favs.controller.js";
+
 const RouterFavs = Router();
 
-RouterFavs.get("/", (req, res) => {});
-RouterFavs.post("/", (req, res) => {});
-RouterFavs.delete("/:id", (req, res) => {});
-RouterFavs.put("/:id", (req, res) => {});
-RouterFavs.get("/:id", (req, res) => {});
+RouterFavs.get("/", getFavs);
+RouterFavs.post("/", createFav);
+RouterFavs.delete("/:id", deleteFav);
+RouterFavs.put("/:id", updateFav);
+RouterFavs.get("/:id", getFav);
 
 export default RouterFavs;
