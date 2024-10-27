@@ -38,8 +38,9 @@ const getMovieDetails = async (req, res) => {
 
 const getRandomMovie = async (req, res) => {
   try {
+    let randomPage = Math.floor(Math.random() * 100) + 1;
     let response = await fetch(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}`
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}&page=${randomPage}`
     );
     let data = await response.json();
     let randomIndex = Math.floor(Math.random() * data.results.length);
