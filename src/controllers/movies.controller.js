@@ -7,7 +7,7 @@ const getMoviesPerPage = async (req, res) => {
   } else {
     try {
       let response = await fetch(
-        `https://api.themoviedb.org/3/trending/all/day?api_key=1396cac43cd50c39f4bc5907119e7e0e&page=${page}`
+        `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}&page=${page}`
       );
       let data = await response.json();
       res.status(200).json(data);
@@ -25,7 +25,7 @@ const getMovieDetails = async (req, res) => {
   } else {
     try {
       let response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=1396cac43cd50c39f4bc5907119e7e0e`
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.KEY_API_TMDB}`
       );
       let data = await response.json();
       res.status(200).json(data);
