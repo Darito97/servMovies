@@ -36,4 +36,18 @@ const getMovieDetails = async (req, res) => {
   }
 };
 
-export { getMoviesPerPage, getMovieDetails };
+const getRandomMovie = async (req, res) => {
+  try {
+    let response = await fetch(
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}`
+    );
+    let data = await response.json();
+    let randomIndex = Math.floor(Math.random() * data.results.length);
+    res.status(200).json(data.results[randomIndex]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { getMoviesPerPage, getMovieDetails, getRandomMovie };
