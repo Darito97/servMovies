@@ -76,4 +76,34 @@ const getFav = async (req, res) => {
   }
 };
 
-export { getFavs, createFav, deleteFav, updateFav, getFav };
+const createOrUpdateFav = async (req, res) => {
+  try {
+    let user = req.body.user;
+    let fav = req.body.fav;
+    let remove = req.body.remove;
+    if (!user || !fav) {
+      return res.status(400).json({ message: "User and fav are required" });
+    } else {
+      let favDB = await Fav.findOne({ user: user });
+      if (!favDB) {
+        favDB = new Fav({ user: user, fav: fav });
+        await favDB.save();
+      } else {
+        let favs = favDB.fav;
+        if (remove) {
+          favs = favDB.fav.filter((f) => f.id !== fav.id);
+        } else {
+          favs.push(fav);
+        }
+        favDB.fav = favs;
+        await favDB.save();
+      }
+      res.status(201).json(favDB);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { getFavs, createFav, deleteFav, updateFav, getFav, createOrUpdateFav };
