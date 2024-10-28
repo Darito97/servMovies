@@ -42,7 +42,6 @@ const getRandomMovie = async (req, res) => {
     let response = await fetch(
       `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}&page=${randomPage}`
     );
-    console.log(response);
     let data = await response.json();
     let randomIndex = Math.floor(Math.random() * data.results.length);
     res.status(200).json(data.results[randomIndex]);
@@ -52,4 +51,23 @@ const getRandomMovie = async (req, res) => {
   }
 };
 
-export { getMoviesPerPage, getMovieDetails, getRandomMovie };
+const searchMovies = async (req, res) => {
+  let query = req.params.query;
+  if (!query) {
+    return res.status(400).json({ message: "Query is required" });
+  } else {
+    try {
+      console.log(query);
+      let response = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.KEY_API_TMDB}&query=${query}`
+      );
+      let data = await response.json();
+      res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+};
+
+export { getMoviesPerPage, getMovieDetails, getRandomMovie, searchMovies };

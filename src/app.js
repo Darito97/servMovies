@@ -11,8 +11,8 @@ dotenv.config();
 const App = express();
 
 App.use(express.json());
-App.use(morgan("dev"));
 App.use(cors);
+App.use(morgan("dev"));
 
 App.use("/favs", RouterFavs);
 App.use("/movies", RouterMovies);
