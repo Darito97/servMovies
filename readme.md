@@ -2,6 +2,11 @@
 
 Este servidor sirve para administrar la conexión con la base de datos `mongodb` y la obtención del listado de peliculas para una página de peliculas.
 
+### Como usarlo:
+Para comenzar a usarlo solo debes descargar el proyecto y ejecutar el comando `npm install` que obtendrá todas las librerías necesarias.
+
+Para ejecutar el proyecto puedes usar `npm start` o bien `npm run dev` en dado caso de quererlo ejecutar en modo desarrollo
+
 #### Dependencias:
 Las dependencias usadas en este proyecto son las siguientes:
 - **express**: Usada para crear la funcionalidad principal del servidor de forma sencilla.
