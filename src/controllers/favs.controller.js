@@ -84,26 +84,51 @@ const createOrUpdateFav = async (req, res) => {
     if (!user || !fav) {
       return res.status(400).json({ message: "User and fav are required" });
     } else {
-      let favDB = await Fav.findOne({ user: user });
+      let favDB = await Fav.findOne({ userId: user });
       if (!favDB) {
-        favDB = new Fav({ user: user, fav: fav });
+        favDB = new Fav({ userId: user, favs: [fav] });
         await favDB.save();
       } else {
-        let favs = favDB.fav;
+        let favs = favDB.favs;
         if (remove) {
-          favs = favDB.fav.filter((f) => f.id !== fav.id);
+          favs = favDB.favs.filter((f) => f.id !== fav.id);
         } else {
           favs.push(fav);
         }
-        favDB.fav = favs;
+        favDB.favs = favs;
         await favDB.save();
       }
       res.status(201).json(favDB);
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export { getFavs, createFav, deleteFav, updateFav, getFav, createOrUpdateFav };
+const getUserFavs = async (req, res) => {
+  try {
+    let user = req.body.user;
+    if (!user) {
+      return res.status(400).json({ message: "User is required" });
+    } else {
+      const fav = await Fav.findOne({ userId: user });
+      if (!fav) {
+        return res.status(404).json({ message: "Fav not found" });
+      } else {
+        res.status(200).json(fav.favs);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export {
+  getFavs,
+  createFav,
+  deleteFav,
+  updateFav,
+  getFav,
+  createOrUpdateFav,
+  getUserFavs,
+};
