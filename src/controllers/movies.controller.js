@@ -38,14 +38,14 @@ const getMovieDetails = async (req, res) => {
 
 const getRandomMovie = async (req, res) => {
   try {
-    let randomPage = Math.floor(Math.random() * 100) + 1;
-    console.log(randomPage);
+    let randomIndex = Math.floor(Math.random() * 10);
+    let randomPage = Math.floor(Math.random() * 500);
     let response = await fetch(
       `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.KEY_API_TMDB}&page=${randomPage}`
     );
     let data = await response.json();
-    let randomIndex = Math.floor(Math.random() * data.results.length);
-    res.status(200).json(data.results[randomIndex]);
+    let movie = data.results[randomIndex];
+    res.json(movie);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal server error" });
